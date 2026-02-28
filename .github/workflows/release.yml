@@ -33,9 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-linux
-          path: |
-            dist/*.AppImage
-            dist/latest-linux.yml
+          path: dist/*.AppImage
 
   build-windows:
     runs-on: windows-latest
@@ -87,9 +85,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-macos
-          path: |
-            dist/*.zip
-            dist/latest-mac.yml
+          path: dist/*.zip
 
   publish-release:
     needs:
