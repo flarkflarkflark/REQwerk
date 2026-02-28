@@ -29,7 +29,7 @@ RECwerk is a high-performance audio editing suite for Linux, Windows, and macOS.
 1. Navigate to the project root.
 2. Run a simple web server:
    *   Python: `python3 -m http.server 8080`
-   *   Go: `go run audiomass-server.go`
+   *   Go: `go run tools/recwerk-server.go`
 3. Navigate to `http://localhost:8080` in your browser.
 
 ---
