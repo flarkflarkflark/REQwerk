@@ -1,6 +1,6 @@
 {
-  "name": "Audiomass - Audio Editor",
-  "short_name": "Audiomass - Audio Editor",
+  "name": "RECwerk",
+  "short_name": "RECwerk",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

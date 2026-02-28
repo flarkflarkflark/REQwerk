@@ -1,64 +1,79 @@
 # RECwerk
-**Powerful native desktop audio and waveform editor.**
 
-RECwerk is a high-performance audio editing suite for Linux, Windows, and macOS. It is a native desktop evolution of the brilliant **AudioMass** engine, modernized with a classic Syntrillium-inspired aesthetic and expanded with professional features like real-time monitoring and stereo recording.
+RECwerk is a native-first waveform and audio editor for Linux, Windows, macOS, and the web. It takes the fast editing core of **AudioMass**, wraps it in a Syntrillium-inspired desktop interface, and adds the workflow features needed for practical restoration, capture, and quick destructive editing.
 
-**Live Web Version:** [https://flarkflarkflark.github.io/RECwerk/](https://flarkflarkflark.github.io/RECwerk/)
+Live web version:
+https://flarkflarkflark.github.io/RECwerk/
 
----
+## Features
 
-## :: Features ::
-*   **Native Desktop Experience**: Fast, low-latency performance using Electron.
-*   **Syntrillium Aesthetic**: A classic look-and-feel inspired by Cool Edit Pro 2.1.
-*   **Advanced Recording**: Support for Mono/Stereo recording with real-time hardware monitoring (up to 200% volume).
-*   **Real-time FX Preview**: Listen to effects (Reverb, Compressor, EQ, Chorus, Bitcrusher) live before applying them.
-*   **Vinyl Restoration**: Integrated click and pop removal tools for audio cleanup.
-*   **Multi-format Support**: Native handling of WAV, MP3, OGG, FLAC, and AIFF.
-*   **Interactive UI**: Clickable selection values for precise timing adjustments.
+- Native Electron desktop app with a matching static web build
+- Fast stereo and mono waveform editing
+- Real-time recording with monitoring controls
+- Real-time FX preview for EQ, compression, delay, reverb, bitcrusher, chorus, and more
+- Vinyl click detection and removal workflow
+- WAV, MP3, OGG, FLAC, AIFF support
+- Recent files, RECwerk project saves, local drafts, and direct export
+- Clickable selection timing fields for precise edits
 
----
+## Getting Started
 
-## :: Getting Started ::
-
-### 1. Running the Native App (Linux/Arch)
-1. Clone this repository.
-2. Ensure you have Electron installed (`sudo pacman -S electron`).
-3. Run the launcher: `./RECwerk`.
-
-### 2. Running Locally (Web Version)
-1. Navigate to the project root.
-2. Run a simple web server:
-   *   Python: `python3 -m http.server 8080`
-   *   Go: `go run tools/recwerk-server.go`
-3. Navigate to `http://localhost:8080` in your browser.
-
----
-
-## :: Building & Publishing ::
-
-RECwerk uses **electron-builder** for packaging native applications.
+### Desktop development
 
 ```bash
-# Install dependencies
 npm install
+env -u ELECTRON_RUN_AS_NODE ./node_modules/electron/dist/electron .
+```
 
-# Build for Windows
-npm run build:win
+### Static web version
 
-# Build for Linux (AppImage)
+```bash
+python3 -m http.server 8080
+```
+
+Then open:
+`http://localhost:8080`
+
+## Release Targets
+
+RECwerk is configured for single-file or drag-and-run style distribution:
+
+- Linux: `AppImage`
+- Windows: `portable`
+- macOS: `zip`
+
+Build commands:
+
+```bash
 npm run build:linux
-
-# Build for macOS (Requires a Mac)
+npm run build:win
 npm run build:mac
 ```
 
----
+Notes:
 
-## :: Credits & Story ::
+- Linux builds locally on Linux.
+- Windows builds are intended to run in CI on Windows runners.
+- macOS builds should run on macOS. electron-builder documents that macOS builds and signing are macOS-only.
 
-RECwerk is developed by **flarkAUDIO**. 
+## GitHub Pages and Releases
 
-The soul of this project is based on the **AudioMass** engine, originally created by **Pantelis Kalogiros**. We stand on the shoulders of giants and honor his philosophy of creating fast, efficient, and dependency-free audio tools. RECwerk takes this vision "out of the browser tab" and delivers it as a true desktop DAW.
+This repository includes GitHub Actions workflows for:
 
----
-*RECwerk - Professional Audio, Native Speed.*
+- Deploying the static app to GitHub Pages
+- Building tagged releases for Linux, Windows, and macOS
+
+Tag a release with:
+
+```bash
+git tag v1.0.0
+git push origin main --tags
+```
+
+The release workflow will build platform artifacts and attach them to the GitHub release automatically.
+
+## Credits
+
+RECwerk is developed by **flarkAUDIO**.
+
+The editing engine is based on **AudioMass**, originally created by **Pantelis Kalogiros**. RECwerk extends that foundation into a desktop-oriented toolchain while preserving the fast, direct editing model that made AudioMass compelling in the browser.

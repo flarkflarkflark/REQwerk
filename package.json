@@ -2,14 +2,23 @@
   "name": "recwerk",
   "version": "1.0.0",
   "description": "RECwerk - Native Desktop Audio & Waveform Editor",
+  "homepage": "https://flarkflarkflark.github.io/RECwerk/",
   "main": "index.js",
   "author": "flarkAUDIO",
   "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flarkflarkflark/RECwerk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flarkflarkflark/RECwerk/issues"
+  },
   "scripts": {
     "start": "electron .",
-    "build:win": "electron-builder --windows",
-    "build:mac": "electron-builder --mac",
-    "build:linux": "electron-builder --linux AppImage"
+    "build:win": "node node_modules/electron-builder/cli.js --win portable",
+    "build:mac": "node node_modules/electron-builder/cli.js --mac zip",
+    "build:linux": "node node_modules/electron-builder/cli.js --linux AppImage",
+    "build:dir": "node node_modules/electron-builder/cli.js --dir"
   },
   "devDependencies": {
     "electron": "^30.0.0",
@@ -18,20 +27,36 @@
   "build": {
     "appId": "com.flarkaudio.recwerk",
     "productName": "RECwerk",
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
     "directories": {
       "output": "dist"
     },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "flarkflarkflark",
+        "repo": "RECwerk"
+      }
+    ],
     "win": {
-      "target": "nsis",
-      "icon": "docs/icon.png"
+      "target": [
+        "portable"
+      ],
+      "icon": "img/icon.png"
     },
     "mac": {
-      "target": "dmg",
-      "icon": "docs/icon.png"
+      "target": [
+        "zip"
+      ],
+      "icon": "img/icon.png",
+      "category": "public.app-category.music",
+      "identity": null
     },
     "linux": {
-      "target": "AppImage",
-      "icon": "docs/icon.png",
+      "target": [
+        "AppImage"
+      ],
+      "icon": "img/icon.png",
       "category": "AudioVideo"
     }
   }

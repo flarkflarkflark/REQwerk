@@ -6,12 +6,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>  
 
-	<meta name="description" content="RECwerk is a powerful native desktop audio and waveform editing tool, based on the AudioMass engine."/>
-	<meta property="og:image" content="img/logo.svg"/>
+	<meta name="description" content="RECwerk is a native-first waveform and audio editor for Linux, Windows, macOS, and the web."/>
+	<meta property="og:image" content="https://flarkflarkflark.github.io/RECwerk/img/icon.png"/>
 	<meta property="og:title" content="RECwerk">
-	<meta property="og:description" content="RECwerk - Native Desktop Audio Editor">
-	<meta name="keywords" content="RECwerk, AudioMass, Audio Editor, DAW, Waveform, Linux, Windows, Mac">
-	<link href="img/ico.png" rel="shortcut icon">
+	<meta property="og:description" content="RECwerk - native-first waveform editing, restoration, and recording">
+	<meta name="keywords" content="RECwerk, AudioMass, Audio Editor, waveform editor, restoration, Linux, Windows, macOS">
+	<link href="../img/ico.png" rel="shortcut icon">
 
 <style>
 	body{
@@ -94,42 +94,45 @@
 
 <div>
 <h1>Introducing RECwerk</h1>
-<p><strong>RECwerk</strong> is a powerful native desktop application designed for professional audio and waveform editing. It provides a fast, responsive interface inspired by classic Digital Audio Workstations like Syntrillium Cool Edit Pro.</p>
+<p><strong>RECwerk</strong> is a native-first waveform and audio editor for Linux, Windows, macOS, and the web. It keeps the direct editing feel of classic waveform editors while adding practical modern workflows for restoration, recording, and quick destructive editing.</p>
 
-<p>This project is a native evolution of the brilliant <strong>AudioMass</strong> engine, originally created by <a href="https://github.com/pkalogiros" target="_blank">Pantelis Kalogiros</a>. While the core engine remains a testament to his web-audio expertise, RECwerk has been modernized and "wrapped" for Linux, Windows, and Mac to provide low-latency audio support and deeper hardware integration.</p>
+<p>The project builds on the excellent <strong>AudioMass</strong> engine by <a href="https://github.com/pkalogiros" target="_blank">Pantelis Kalogiros</a>, then extends it with a desktop shell, native file workflows, a Syntrillium-inspired interface, and release packaging for one-click distribution.</p>
 
-<h5>:: Native Feature List ::</h5>
+<h5>:: Feature List ::</h5>
 <ul>
-<li><strong>Native Audio Engine</strong>: High-performance stereo and mono support.</li>
-<li><strong>Real-time Monitoring</strong>: Hear your input during recording with up to 200% volume boost.</li>
-<li><strong>Hardware Selection</strong>: Choose specific Input/Output devices for complex multi-card setups.</li>
-<li><strong>Multiformat support</strong>: Native handling of WAV, MP3, OGG, FLAC, and AIFF.</li>
-<li><strong>Advanced DSP</strong>: Real-time preview for AI Noise Reduction, Paragraphic EQ, Compression, and Reverb.</li>
-<li><strong>Syntrillium Aesthetic</strong>: A classic "Cooler" look-and-feel for the modern era.</li>
-<li><strong>Non-destructive editing</strong>: Full undo/redo history for all operations.</li>
+<li><strong>Desktop and web builds</strong>: Electron for native desktop use, plus a matching static web build.</li>
+<li><strong>Waveform editing</strong>: Fast mono and stereo editing with selection-based destructive processing.</li>
+<li><strong>Real-time recording</strong>: Record directly into RECwerk with monitoring controls.</li>
+<li><strong>Restoration workflow</strong>: Built-in click detection and click removal for vinyl-style cleanup.</li>
+<li><strong>Real-time FX preview</strong>: Preview EQ, dynamics, delay, reverb, chorus, bitcrusher, and more before applying.</li>
+<li><strong>Multiformat support</strong>: WAV, MP3, OGG, FLAC, AIFF import and export support.</li>
+<li><strong>Classic interface direction</strong>: A visual language inspired by Syntrillium-era editors without turning into a museum piece.</li>
 </ul>
 </div>
 
 <div>
 <h3>Getting Started</h3>
-<p>To get started, simply drag and drop an audio file into the workspace. Once the file is loaded, you can view the waveform, zoom in, pan around, and select regions for editing.</p>
+<p>Drag an audio file into the workspace or open one from the File menu. Once the waveform is loaded, you can zoom, pan, make a selection, preview effects, and apply destructive edits directly to the selected region or full file.</p>
 
 <h3>Recording Audio</h3>
-<p>To record audio, press the <strong>Recording button</strong> or use the <strong>[R]</strong> key. You can adjust your recording settings (channels, sample rate, monitoring) in the recording modal.</p>
+<p>Use the <strong>Record</strong> button or the <strong>[R]</strong> shortcut to capture audio. The recording modal exposes channel selection, sample rate, and monitoring controls so RECwerk can act as a practical capture and cleanup tool in one window.</p>
+
+<h3>Releases</h3>
+<p>RECwerk is packaged for straightforward distribution: Linux uses <strong>AppImage</strong>, Windows uses a <strong>portable executable</strong>, and macOS uses a <strong>zip build</strong>. The first tagged release is intended to be downloadable directly from the GitHub Releases page without installer-first friction.</p>
 
 <h3>The Story & Credits</h3>
-<p>The soul of RECwerk lies in the <strong>AudioMass</strong> project, written by Pantelis Kalogiros in 2018. He shared it as an open-source tool to show how far web-audio technologies could go without complex frameworks. His philosophy was simple: "be fast and get the job done."</p>
+<p>The soul of RECwerk lies in <strong>AudioMass</strong>, written by Pantelis Kalogiros in 2018. That project proved how far a lean waveform editor could go without dragging in unnecessary complexity, and RECwerk deliberately keeps that fast, direct spirit.</p>
 
-<p>The <strong>flarkAUDIO</strong> team recognized the potential of this engine and decided to take it "out of the browser tab" and onto the desktop. By implementing native wrappers, improving recording capabilities (Stereo/Monitoring), and skinning it with the classic Syntrillium vibe, <strong>RECwerk</strong> was born—honoring its web-based roots while delivering a true desktop DAW experience.</p>
+<p><strong>flarkAUDIO</strong> took that base out of the browser-tab-only context and pushed it into a desktop-oriented workflow with native packaging, recording support, restoration tooling, and a stronger editor identity. The goal is not to imitate a full DAW, but to be the fast tool you open when you need to edit, repair, trim, capture, and export audio without ceremony.</p>
 </div>
 
 <hr style="border: 0; border-top: 1px solid #335566; margin: 40px 0;" />
 
 <div>
-<h3>Performance Considerations (The Technical Rant)</h3>
-<p>Working with the Web Audio API in a native context brings its own challenges. As the original author noted, iterating over multiple long arrays can eventually trigger garbage collection, leading to "crackling."</p>
+<h3>Performance Considerations</h3>
+<p>Working with long waveform buffers in a browser-derived audio engine still has real constraints. Large operations can create pressure on the JavaScript runtime and trigger garbage collection at awkward times.</p>
 
-<p>In RECwerk, we address this by moving heavy operations—such as filter processing—to background threads (Web Workers). We are also working towards a pure WASM implementation for signal modification to outperform traditional JS processing, ensuring that even large audio files can be handled without freezing the UI.</p>
+<p>RECwerk mitigates that by offloading heavier work to background workers where possible and by keeping the editing model focused. The aim is practical responsiveness for real editing sessions rather than checkbox feature inflation.</p>
 
 <p><em>RECwerk is a free, open-source project. We stand on the shoulders of giants.</em></p>
 </div>

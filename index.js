@@ -1,10 +1,25 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const http = require('http');
 const fs = require('fs');
 
 let server;
 let port = 0;
+const preferredPort = 45119;
+const settingsPath = path.join(app.getPath('userData'), 'recwerk-settings.json');
+
+function readSettings() {
+  try {
+    return JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+  } catch (err) {
+    return {};
+  }
+}
+
+function writeSettings(settings) {
+  fs.mkdirSync(path.dirname(settingsPath), { recursive: true });
+  fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
+}
 
 // Eenvoudige HTTP server om file:// beperkingen (zoals WASM loading) te omzeilen
 function startServer() {
@@ -36,11 +51,23 @@ function startServer() {
     });
   });
 
-  server.listen(0, '127.0.0.1', () => {
+  server.once('error', (err) => {
+    if (err && err.code === 'EADDRINUSE') {
+      console.warn(`Preferred port ${preferredPort} is busy, falling back to a random port.`);
+      server.listen(0, '127.0.0.1');
+      return;
+    }
+
+    throw err;
+  });
+
+  server.once('listening', () => {
     port = server.address().port;
     console.log(`Internal server running on port ${port}`);
     createWindow();
   });
+
+  server.listen(preferredPort, '127.0.0.1');
 }
 
 function createWindow() {
@@ -60,6 +87,37 @@ function createWindow() {
   win.setMenuBarVisibility(false);
   win.loadURL(`http://127.0.0.1:${port}/index.html`);
 }
+
+// IPC handler voor save dialog
+ipcMain.handle('show-save-dialog', async (event, options) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  return await dialog.showSaveDialog(win, options);
+});
+
+// IPC handler voor het lezen van bestanden
+ipcMain.handle('read-file', async (event, filePath) => {
+  try {
+    return fs.readFileSync(filePath);
+  } catch (err) {
+    console.error('Failed to read file:', err);
+    throw err;
+  }
+});
+
+ipcMain.handle('get-setting', async (event, key) => {
+  const settings = readSettings();
+  return settings[key];
+});
+
+ipcMain.handle('set-setting', async (event, key, value) => {
+  const settings = readSettings();
+
+  if (value === undefined || value === null) delete settings[key];
+  else settings[key] = value;
+
+  writeSettings(settings);
+  return true;
+});
 
 app.whenReady().then(startServer);
 
