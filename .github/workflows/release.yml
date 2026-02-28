@@ -35,7 +35,7 @@ jobs:
           name: release-linux
           path: |
             dist/*.AppImage
-            dist/*.yml
+            dist/latest-linux.yml
 
   build-windows:
     runs-on: windows-latest
@@ -89,7 +89,7 @@ jobs:
           name: release-macos
           path: |
             dist/*.zip
-            dist/*.yml
+            dist/latest-mac.yml
 
   publish-release:
     needs:
