@@ -755,8 +755,9 @@ a{cursor:pointer;color:#99c2c6;-webkit-tap-highlight-color:rgba(0,0,0,0)}
 }
 
 .pk_loop.pk_act{
-	background:gold;
-	background: linear-gradient(-65deg, #43C6AC, #F8FFAE);
+	background: #FF0000 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 12px #FF0000 !important;
 }
 
 .wavesurfer-region{
