@@ -42,13 +42,13 @@
       "target": [
         "portable"
       ],
-      "icon": "img/icon.png"
+      "icon": "img/app-icon.png"
     },
     "mac": {
       "target": [
         "zip"
       ],
-      "icon": "img/icon.png",
+      "icon": "img/app-icon.png",
       "category": "public.app-category.music",
       "identity": null
     },
@@ -56,7 +56,7 @@
       "target": [
         "AppImage"
       ],
-      "icon": "img/icon.png",
+      "icon": "img/app-icon.png",
       "category": "AudioVideo"
     }
   }

@@ -6,9 +6,14 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "app-icon-192.png",
       "type": "image/png",
-      "sizes": "144x144"
+      "sizes": "192x192"
+    },
+    {
+      "src": "app-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }
