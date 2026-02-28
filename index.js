@@ -9,7 +9,7 @@ let port = 0;
 // Eenvoudige HTTP server om file:// beperkingen (zoals WASM loading) te omzeilen
 function startServer() {
   server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+    let filePath = path.join(__dirname, 'docs', req.url === '/' ? 'index.html' : req.url);
     
     // Zorg dat we geen queries of hashes in de bestandsnaam hebben
     filePath = filePath.split('?')[0].split('#')[0];
@@ -48,7 +48,7 @@ function createWindow() {
     width: 1300,
     height: 850,
     title: 'RECwerk',
-    icon: path.join(__dirname, 'icon.png'),
+    icon: path.join(__dirname, 'docs', 'icon.png'),
     backgroundColor: '#1E2832',
     webPreferences: {
       nodeIntegration: true,
