@@ -7,6 +7,29 @@ let server;
 let port = 0;
 const preferredPort = 45119;
 const settingsPath = path.join(app.getPath('userData'), 'recwerk-settings.json');
+const appRoot = path.resolve(__dirname);
+const mimeTypes = Object.freeze({
+  '.css': 'text/css; charset=utf-8',
+  '.eot': 'application/vnd.ms-fontobject',
+  '.html': 'text/html; charset=utf-8',
+  '.ico': 'image/x-icon',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.js': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.m4a': 'audio/mp4',
+  '.mp3': 'audio/mpeg',
+  '.mp4': 'video/mp4',
+  '.ogg': 'audio/ogg',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.ttf': 'font/ttf',
+  '.wav': 'audio/wav',
+  '.wasm': 'application/wasm',
+  '.webm': 'video/webm',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2'
+});
 
 function readSettings() {
   try {
@@ -21,33 +44,49 @@ function writeSettings(settings) {
   fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
 }
 
+function resolveRequestPath(rawUrl) {
+  const requestUrl = new URL(rawUrl, 'http://127.0.0.1');
+  let reqPath = decodeURIComponent(requestUrl.pathname);
+
+  if (reqPath === '/') reqPath = '/index.html';
+  else if (reqPath === '/app' || reqPath === '/app/') reqPath = '/app/index.html';
+
+  const relativePath = path.normalize(reqPath).replace(/^[/\\]+/, '');
+  const filePath = path.resolve(appRoot, relativePath);
+
+  if (filePath !== appRoot && !filePath.startsWith(appRoot + path.sep)) {
+    return null;
+  }
+
+  return filePath;
+}
+
 // Eenvoudige HTTP server om file:// beperkingen (zoals WASM loading) te omzeilen
 function startServer() {
   server = http.createServer((req, res) => {
-    let reqPath = req.url.split('?')[0].split('#')[0];
-    if (reqPath === '/') reqPath = '/index.html';
-    else if (reqPath === '/app' || reqPath === '/app/') reqPath = '/app/index.html';
+    const filePath = resolveRequestPath(req.url);
 
-    let filePath = path.join(__dirname, reqPath);
-    
+    if (!filePath) {
+      res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Forbidden');
+      return;
+    }
+
     fs.readFile(filePath, (err, data) => {
       if (err) {
-        res.writeHead(404);
-        res.end(JSON.stringify(err));
+        const statusCode = err.code === 'ENOENT' ? 404 : 500;
+        res.writeHead(statusCode, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end(statusCode === 404 ? 'Not Found' : 'Internal Server Error');
         return;
       }
-      
-      // Mime-types voor belangrijke bestanden
-      const ext = path.extname(filePath).toLowerCase();
-      let contentType = 'text/html';
-      if (ext === '.js') contentType = 'application/javascript';
-      if (ext === '.css') contentType = 'text/css';
-      if (ext === '.wasm') contentType = 'application/wasm';
-      if (ext === '.svg') contentType = 'image/svg+xml';
-      if (ext === '.png') contentType = 'image/png';
-      if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
 
-      res.writeHead(200, { 'Content-Type': contentType });
+      const ext = path.extname(filePath).toLowerCase();
+      const contentType = mimeTypes[ext] || 'application/octet-stream';
+
+      res.writeHead(200, {
+        'Content-Type': contentType,
+        'X-Content-Type-Options': 'nosniff'
+      });
       res.end(data);
     });
   });

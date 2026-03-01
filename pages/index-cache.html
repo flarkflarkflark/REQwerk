@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base href="../">
+	<title>RECwerk Offline Editor</title>
+	<link href="img/ico.png" rel="shortcut icon">
+	<meta charset="utf-8" />
+	<link rel="manifest" href="img/manifest.json">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+
+	<meta name="description" content="RECwerk offline-ready editor for waveform editing, restoration, playback, and browser-based audio work." />
+	<meta property="og:image" content="https://flarkflarkflark.github.io/RECwerk/img/icon.png" />
+	<meta property="og:title" content="RECwerk Offline Editor | Waveform and Audio Editor">
+	<meta property="og:url" content="https://flarkflarkflark.github.io/RECwerk/pages/index-cache.html">
+	<meta property="og:description" content="Open the offline-ready RECwerk editor in your browser.">
+	<meta name="keywords" content="RECwerk offline editor, waveform editor, audio editor, audio restoration, browser audio editor, flarkaudio">
+	<link rel="apple-touch-icon" href="https://flarkflarkflark.github.io/RECwerk/img/app-icon-512.png">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="RECwerk Offline Editor">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="RECwerk Offline Editor | Waveform and Audio Editor">
+	<meta name="twitter:description" content="Open the offline-ready RECwerk waveform editor in your browser.">
+	<meta name="twitter:image" content="https://flarkflarkflark.github.io/RECwerk/img/icon.png">
+
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+	<div id="app"></div>
+
+	<script src="lib/dist/wavesurfer.js"></script>
+	<script src="lib/dist/plugin/wavesurfer.regions.js"></script>
+	<script src="lib/oneup.js"></script>
+
+	<script src="lib/app.js"></script>
+	<script src="lib/keys.js"></script>
+	<script src="lib/drag.js"></script>
+	<script src="lib/state.js"></script>
+	<script src="lib/actions.js"></script>
+	<script src="lib/engine.js"></script>
+	<script src="lib/contextmenu.js"></script>
+	<script src="lib/ui-fx.js"></script>
+	<script src="lib/ui.js"></script>
+	<script src="lib/modal.js"></script>
+	<script src="lib/recorder.js"></script>
+
+	<script src="lib/welcome.js"></script>
+	<script src="lib/fx-pg-eq.js"></script>
+	<script src="lib/fx-auto.js"></script>
+	<script src="lib/local.js"></script>
+	<script src="lib/id3.js"></script>
+	<script src="lib/lzma.js"></script>
+	<script>
+		var editor = PKAudioEditor.init('app');
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('sw.js').catch(function (error) {
+				console.error('Failed to register service worker:', error);
+			});
+		}
+	</script>
+</body>
+</html>

@@ -31,6 +31,17 @@
     "directories": {
       "output": "dist"
     },
+    "files": [
+      "app/**/*",
+      "css/**/*",
+      "img/**/*",
+      "lib/**/*",
+      "pages/**/*",
+      "index.html",
+      "index.js",
+      "package.json",
+      "sw.js"
+    ],
     "publish": [
       {
         "provider": "github",
