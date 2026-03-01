@@ -9,7 +9,26 @@ permissions:
   contents: write
 
 jobs:
+  verify-web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run web smoke checks
+        run: npm run check:web
+
   build-linux:
+    needs: verify-web
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,6 +55,7 @@ jobs:
           path: dist/*.AppImage
 
   build-windows:
+    needs: verify-web
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -62,6 +82,7 @@ jobs:
           path: dist/*.exe
 
   build-macos:
+    needs: verify-web
     runs-on: macos-latest
     steps:
       - name: Checkout

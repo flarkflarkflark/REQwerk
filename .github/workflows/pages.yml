@@ -25,6 +25,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run web smoke checks
+        run: npm run check:web
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
@@ -43,3 +55,10 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify live Pages deployment
+        env:
+          CHECK_BASE_URL: ${{ steps.deployment.outputs.page_url }}
+          CHECK_RETRIES: "15"
+          CHECK_DELAY_MS: "4000"
+        run: npm run check:web

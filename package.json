@@ -18,7 +18,8 @@
     "build:win": "node node_modules/electron-builder/cli.js --win portable",
     "build:mac": "node node_modules/electron-builder/cli.js --mac zip --x64 --arm64",
     "build:linux": "node node_modules/electron-builder/cli.js --linux AppImage",
-    "build:dir": "node node_modules/electron-builder/cli.js --dir"
+    "build:dir": "node node_modules/electron-builder/cli.js --dir",
+    "check:web": "node tools/web-smoke-check.js"
   },
   "devDependencies": {
     "electron": "^30.0.0",

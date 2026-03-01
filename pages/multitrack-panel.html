@@ -44,7 +44,7 @@
 			overflow:auto;
 			padding:14px 16px 16px 16px;
 		}
-		#d,#e,#f{
+		#d,#dl,#db,#e,#f{
 			cursor:pointer;
 			position:absolute;
 			top:7px;
@@ -66,10 +66,12 @@
 			color:#111;
 			text-decoration:none;
 		}
-		.b #e,.b #d{top:12px}
+		.b #e,.b #d,.b #dl,.b #db{top:12px}
 		.b #e,.b #f{display:block}
+		#dl{right:94px;width:76px}
+		#db{right:176px;width:86px}
 		#e{
-			right:106px;
+			right:268px;
 			width:10px;
 			line-height:20px;
 			padding:0 6px;
@@ -110,7 +112,9 @@
 		</div>
 	</div>
 
-	<a id="d" onclick="dock()">DOCK INTERFACE</a>
+	<a id="d" onclick="dockTo('right')">DOCK RIGHT</a>
+	<a id="dl" onclick="dockTo('left')">DOCK LEFT</a>
+	<a id="db" onclick="dockTo('bottom')">DOCK BOTTOM</a>
 	<a id="e" onclick="remove()">X</a>
 	<a id="f" onmousedown="drag(event)"></a>
 
@@ -159,23 +163,13 @@
 				editor && editor.ui && editor.ui.Dock && editor.ui.Dock ('RequestDragMultitrackPanel', panelName);
 			};
 
-			w.dock = function () {
+			w.dockTo = function ( dockTarget ) {
 				var editor = getEditor ();
-				if (!editor || !editor.ui || !editor.ui.Dock) return ;
+				if (!editor || !editor.fireEvent) return ;
 
+				editor.fireEvent ('RequestDockMultitrackPanel', panelName, dockTarget || 'right');
 				if (!iframe) {
-					editor.ui.Dock ('RequestShowMultitrackPanel', panelName, [1, 1]);
 					w.close && w.close ();
-				} else {
-					var frm = w.parent.document.getElementById ( targetId );
-					var t = 1;
-
-					if (frm && frm.getBoundingClientRect) {
-						var rect = frm.getBoundingClientRect ();
-						t = [ (w.parent.screenLeft + rect.left + 140) || 0, (w.parent.screenTop + rect.top + 30) || 0 ];
-					}
-
-					editor.ui.Dock ('RequestShowMultitrackPanel', panelName, [ t, 0 ]);
 				}
 			};
 

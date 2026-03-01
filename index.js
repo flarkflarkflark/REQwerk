@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, screen } = require('electron');
 const path = require('path');
 const http = require('http');
 const fs = require('fs');
@@ -111,9 +111,18 @@ function startServer() {
 }
 
 function createWindow() {
+  const settings = readSettings();
+  const workArea = screen.getPrimaryDisplay().workAreaSize;
+  const savedBounds = settings.windowBounds || {};
+  const defaultWidth = Math.min(workArea.width - 80, Math.max(1480, Math.round(workArea.width * 0.78)));
+  const defaultHeight = Math.min(workArea.height - 70, Math.max(880, Math.round(workArea.height * 0.84)));
   const win = new BrowserWindow({
-    width: 1300,
-    height: 850,
+    width: savedBounds.width || defaultWidth,
+    height: savedBounds.height || defaultHeight,
+    x: typeof savedBounds.x === 'number' ? savedBounds.x : undefined,
+    y: typeof savedBounds.y === 'number' ? savedBounds.y : undefined,
+    minWidth: 1280,
+    minHeight: 820,
     title: 'RECwerk',
     icon: path.join(__dirname, 'img', 'icon.png'),
     backgroundColor: '#1E2832',
@@ -126,6 +135,16 @@ function createWindow() {
 
   win.setMenuBarVisibility(false);
   win.loadURL(`http://127.0.0.1:${port}/app/index.html`);
+
+  const persistWindowBounds = () => {
+    if (win.isDestroyed() || win.isMinimized() || win.isFullScreen()) return;
+    const nextSettings = readSettings();
+    nextSettings.windowBounds = win.getBounds();
+    writeSettings(nextSettings);
+  };
+
+  win.on('resize', persistWindowBounds);
+  win.on('move', persistWindowBounds);
 }
 
 // IPC handler voor save dialog
@@ -177,6 +196,12 @@ ipcMain.handle('set-setting', async (event, key, value) => {
 
   writeSettings(settings);
   return true;
+});
+
+ipcMain.on('set-window-title', (event, title) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (!win || win.isDestroyed()) return;
+  win.setTitle(title || 'RECwerk');
 });
 
 app.whenReady().then(startServer);
