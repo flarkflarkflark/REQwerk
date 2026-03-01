@@ -24,11 +24,12 @@ function writeSettings(settings) {
 // Eenvoudige HTTP server om file:// beperkingen (zoals WASM loading) te omzeilen
 function startServer() {
   server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
-    
-    // Zorg dat we geen queries of hashes in de bestandsnaam hebben
-    filePath = filePath.split('?')[0].split('#')[0];
+    let reqPath = req.url.split('?')[0].split('#')[0];
+    if (reqPath === '/') reqPath = '/index.html';
+    else if (reqPath === '/app' || reqPath === '/app/') reqPath = '/app/index.html';
 
+    let filePath = path.join(__dirname, reqPath);
+    
     fs.readFile(filePath, (err, data) => {
       if (err) {
         res.writeHead(404);
@@ -85,7 +86,7 @@ function createWindow() {
   });
 
   win.setMenuBarVisibility(false);
-  win.loadURL(`http://127.0.0.1:${port}/index.html`);
+  win.loadURL(`http://127.0.0.1:${port}/app/index.html`);
 }
 
 // IPC handler voor save dialog

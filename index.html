@@ -1,70 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>RECwerk | Waveform and Audio Editor</title>
+	<title>RECwerk | Native-First Audio Editor</title>
 	<link href="img/ico.png" rel="shortcut icon">
 	<meta charset="utf-8" />
-	<link rel="manifest" href="img/manifest.json">
-
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-
-	<meta name="description" content="RECwerk is a waveform and audio editor for Linux, Windows, macOS, and the web, with recording, restoration, and real-time FX preview."/>
-	<meta property="og:image" content="https://flarkflarkflark.github.io/RECwerk/img/icon.png"/>
-	<meta property="og:title" content="RECwerk | Waveform and Audio Editor">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="RECwerk is a native-first waveform and audio editor for Linux, Windows, macOS, and the web." />
+	<meta property="og:image" content="https://flarkflarkflark.github.io/RECwerk/img/icon.png" />
+	<meta property="og:title" content="RECwerk | Native-First Audio Editor">
 	<meta property="og:url" content="https://flarkflarkflark.github.io/RECwerk/">
-	<meta property="og:description" content="Native-first waveform editing, audio restoration, recording, and quick destructive editing in a Syntrillium-inspired interface.">
-	<meta name="keywords" content="RECwerk, waveform editor, audio editor, audio restoration, appimage, electron audio editor, audio recording, flarkaudio">
-	<link rel="apple-touch-icon" href="https://flarkflarkflark.github.io/RECwerk/img/app-icon-512.png">
-	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-title" content="RECwerk">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
+	<meta property="og:description" content="Waveform editing, restoration, desktop releases, and a browser editor from one RECwerk codebase.">
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="RECwerk | Waveform and Audio Editor">
-	<meta name="twitter:description" content="Waveform editing, audio restoration, recording, and real-time FX preview for desktop and web.">
+	<meta name="twitter:title" content="RECwerk | Native-First Audio Editor">
+	<meta name="twitter:description" content="Open the browser editor or download the desktop builds for Linux, Windows, and macOS.">
 	<meta name="twitter:image" content="https://flarkflarkflark.github.io/RECwerk/img/icon.png">
+	<style>
+		:root {
+			--bg: #091219;
+			--panel: rgba(18, 31, 40, 0.88);
+			--line: #335566;
+			--text: #d9e6e8;
+			--muted: #92a9ad;
+			--accent: #99ff00;
+			--alert: #ff4d4d;
+			--button: #1c3548;
+		}
 
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			font-family: Helvetica, Arial, sans-serif;
+			color: var(--text);
+			background:
+				radial-gradient(circle at top, rgba(153,255,0,0.08), transparent 28%),
+				linear-gradient(180deg, #12202a 0%, var(--bg) 58%);
+			min-height: 100vh;
+		}
 
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+		a { color: inherit; text-decoration: none; }
+
+		.shell {
+			width: min(1160px, calc(100% - 40px));
+			margin: 0 auto;
+			padding: 34px 0 48px 0;
+		}
+
+		.topline {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			padding: 6px 12px;
+			border: 1px solid var(--line);
+			border-radius: 999px;
+			background: rgba(14, 26, 34, 0.82);
+			color: var(--muted);
+			font-size: 12px;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+		}
+
+		.hero {
+			display: grid;
+			grid-template-columns: 1.2fr 0.8fr;
+			gap: 24px;
+			margin-top: 22px;
+		}
+
+		.panel {
+			border: 1px solid var(--line);
+			border-radius: 18px;
+			background: var(--panel);
+			box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+		}
+
+		.copy {
+			padding: 34px;
+		}
+
+		.copy img {
+			display: block;
+			width: min(360px, 100%);
+			margin-bottom: 18px;
+		}
+
+		h1 {
+			margin: 0 0 14px 0;
+			font-size: clamp(38px, 5vw, 68px);
+			line-height: 0.96;
+			letter-spacing: -0.04em;
+		}
+
+		.lead {
+			max-width: 56ch;
+			font-size: 18px;
+			line-height: 1.55;
+			color: var(--muted);
+		}
+
+		.actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 12px;
+			margin-top: 24px;
+		}
+
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 44px;
+			padding: 0 16px;
+			border-radius: 999px;
+			border: 1px solid var(--line);
+			background: var(--button);
+			color: var(--text);
+			font-weight: bold;
+		}
+
+		.btn.primary {
+			border-color: #6b9d12;
+			background: linear-gradient(180deg, #4b6f12, #334d08);
+			color: #f4ffd4;
+		}
+
+		.btn.alert {
+			border-color: #8c3c3c;
+			background: rgba(74, 21, 21, 0.82);
+			color: #ffd4d4;
+		}
+
+		.aside {
+			padding: 24px;
+			display: grid;
+			gap: 14px;
+			align-content: start;
+		}
+
+		.aside h2, .grid h2 {
+			margin: 0 0 8px 0;
+			font-size: 14px;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: var(--accent);
+		}
+
+		.kv {
+			padding: 16px;
+			border: 1px solid rgba(51,85,102,0.9);
+			border-radius: 12px;
+			background: rgba(8, 18, 25, 0.62);
+		}
+
+		.kv strong {
+			display: block;
+			margin-bottom: 8px;
+			font-size: 18px;
+			color: #fff;
+		}
+
+		.kv p {
+			margin: 0;
+			color: var(--muted);
+			line-height: 1.5;
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 18px;
+			margin-top: 22px;
+		}
+
+		.card {
+			padding: 22px;
+		}
+
+		.card ul {
+			margin: 0;
+			padding-left: 18px;
+			color: var(--muted);
+			line-height: 1.7;
+		}
+
+		.footer {
+			margin-top: 18px;
+			color: #6f868b;
+			font-size: 13px;
+		}
+
+		@media (max-width: 900px) {
+			.hero, .grid {
+				grid-template-columns: 1fr;
+			}
+			.shell {
+				width: calc(100% - 24px);
+				padding-top: 18px;
+			}
+			.copy, .aside, .card {
+				padding: 18px;
+			}
+			.actions {
+				flex-direction: column;
+			}
+		}
+	</style>
 </head>
 <body>
-	<div id="app"></div>
+	<div class="shell">
+		<div class="topline">RECwerk · waveform editor · desktop + web</div>
 
-	<script src="lib/dist/wavesurfer.js"></script>
-	<script src="lib/dist/plugin/wavesurfer.regions.js"></script>
-	<script src="lib/oneup.js"></script>
+		<div class="hero">
+			<div class="panel copy">
+				<img src="img/logo.svg" alt="RECwerk">
+				<h1>Fast waveform editing without DAW baggage.</h1>
+				<div class="lead">
+					RECwerk combines a native desktop release line with a browser editor for quick editing, restoration tests, and waveform work. Use the web build for immediate access, or download the desktop builds for the full workflow.
+				</div>
+				<div class="actions">
+					<a class="btn primary" href="app/">Open Web Editor</a>
+					<a class="btn" href="https://github.com/flarkflarkflark/RECwerk/releases/latest">Download Desktop Builds</a>
+					<a class="btn alert" href="pages/about.html">About RECwerk</a>
+				</div>
+			</div>
 
-	<script src="lib/app.js"></script>
-	<script src="lib/keys.js"></script>
-	<script src="lib/drag.js"></script>
-	<script src="lib/state.js"></script>
-	<script src="lib/actions.js"></script>
-	<script src="lib/engine.js"></script>
-	<script src="lib/contextmenu.js"></script>
-	<script src="lib/ui-fx.js"></script>
-	<script src="lib/ui.js"></script>
-	<script src="lib/modal.js"></script>
-	<script src="lib/recorder.js"></script>
+			<div class="panel aside">
+				<div class="kv">
+					<h2>Desktop</h2>
+					<strong>Linux, Windows, macOS</strong>
+					<p>Portable-first release targets: AppImage on Linux, portable `.exe` on Windows, zip on macOS.</p>
+				</div>
+				<div class="kv">
+					<h2>Browser</h2>
+					<strong>Quick editor at `/app/`</strong>
+					<p>Open local audio, try the bundled sample, test restoration workflows, and inspect the RECwerk interface directly in the browser.</p>
+				</div>
+				<div class="kv">
+					<h2>Source</h2>
+					<strong>Open development</strong>
+					<p>RECwerk extends the AudioMass engine into a desktop-oriented tool with native packaging, restoration tooling, and a Syntrillium-inspired interface.</p>
+				</div>
+			</div>
+		</div>
 
-	<script src="lib/welcome.js"></script>
-	<script src="lib/fx-pg-eq.js"></script>
-	<script src="lib/fx-auto.js"></script>
-	<script src="lib/local.js"></script>
-	<script src="lib/id3.js"></script>
-	<script src="lib/lzma.js"></script>
-<!--
-	<script src="lib/multitrack.js"></script>
-	<script src="lib/multitrack-ui.js"></script>
--->
-	<script>
-		var editor = PKAudioEditor.init ('app');
-		if ('serviceWorker' in navigator) {
-			try {
-			//	navigator.serviceWorker.register( 'sw.js' );
-			} catch ( error ) {}
-		}
-	</script>
+		<div class="grid">
+			<div class="panel card">
+				<h2>What It Does</h2>
+				<ul>
+					<li>Waveform editing in mono and stereo</li>
+					<li>Click detection and click removal</li>
+					<li>Fast destructive edits and export</li>
+					<li>Real-time FX preview and restoration tools</li>
+				</ul>
+			</div>
+			<div class="panel card">
+				<h2>Browser Fit</h2>
+				<ul>
+					<li>Open local files and test the UI quickly</li>
+					<li>Good for previews, playback, and quick edits</li>
+					<li>Not the full replacement for native recording workflows</li>
+				</ul>
+			</div>
+			<div class="panel card">
+				<h2>Start Here</h2>
+				<ul>
+					<li><a href="app/">Open the browser editor</a></li>
+					<li><a href="https://github.com/flarkflarkflark/RECwerk/releases/latest">Get the latest desktop release</a></li>
+					<li><a href="https://github.com/flarkflarkflark/RECwerk">Browse the GitHub repo</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="footer">RECwerk by flarkAUDIO. Browser editor at <code>/app/</code>, desktop releases on GitHub.</div>
+	</div>
 </body>
 </html>
