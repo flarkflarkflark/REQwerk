@@ -1,5 +1,9 @@
 node_modules/
 dist/
+!lib/dist/
+!lib/dist/wavesurfer.js
+!lib/dist/plugin/
+!lib/dist/plugin/wavesurfer.regions.js
 build/
 .DS_Store
 *.log
