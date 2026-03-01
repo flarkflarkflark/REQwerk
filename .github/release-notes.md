@@ -4,10 +4,11 @@ Artifacts:
 
 - Linux AppImage
 - Windows portable executable
-- macOS zip app bundle
+- macOS zip app bundle for Apple Silicon and Intel
 
 Highlights:
 
+- Added a native Intel Mac (`mac-x64`) release artifact alongside Apple Silicon
 - Fixed packaged asset loading for desktop and web
 - Added RECwerk project open/load improvements, including drag and drop
 - Added multitrack workspace foundations with mixer, master channel and asset library

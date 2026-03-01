@@ -1,6 +1,6 @@
 {
   "name": "recwerk",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "RECwerk - Native Desktop Audio & Waveform Editor",
   "homepage": "https://flarkflarkflark.github.io/RECwerk/",
   "main": "index.js",
@@ -16,7 +16,7 @@
   "scripts": {
     "start": "electron .",
     "build:win": "node node_modules/electron-builder/cli.js --win portable",
-    "build:mac": "node node_modules/electron-builder/cli.js --mac zip",
+    "build:mac": "node node_modules/electron-builder/cli.js --mac zip --x64 --arm64",
     "build:linux": "node node_modules/electron-builder/cli.js --linux AppImage",
     "build:dir": "node node_modules/electron-builder/cli.js --dir"
   },
