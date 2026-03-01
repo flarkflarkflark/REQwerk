@@ -144,6 +144,26 @@ ipcMain.handle('read-file', async (event, filePath) => {
   }
 });
 
+ipcMain.handle('write-file', async (event, filePath, data) => {
+  try {
+    fs.writeFileSync(filePath, Buffer.from(data));
+    return true;
+  } catch (err) {
+    console.error('Failed to write file:', err);
+    throw err;
+  }
+});
+
+ipcMain.handle('rename-file', async (event, oldPath, newPath) => {
+  try {
+    fs.renameSync(oldPath, newPath);
+    return true;
+  } catch (err) {
+    console.error('Failed to rename file:', err);
+    throw err;
+  }
+});
+
 ipcMain.handle('get-setting', async (event, key) => {
   const settings = readSettings();
   return settings[key];
