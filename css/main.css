@@ -389,7 +389,8 @@ a{cursor:pointer;color:#99c2c6;-webkit-tap-highlight-color:rgba(0,0,0,0)}
 
 .pk_selection,
 .pk_ctns,
-.pk_transport{
+.pk_transport,
+.pk_effects{
 	float:left;
 	margin-right:12px;
 	min-width:340px;
@@ -401,6 +402,22 @@ a{cursor:pointer;color:#99c2c6;-webkit-tap-highlight-color:rgba(0,0,0,0)}
 .pk_selection{margin-right:0}
 .pk_ctns{
 	min-width:40px;
+}
+.pk_effects{
+	display:flex;
+	align-items:center;
+	min-width:380px;
+	padding-right:8px;
+	overflow-x:auto;
+	overflow-y:hidden;
+	scrollbar-width: thin;
+}
+.pk_effects::-webkit-scrollbar{
+	height: 6px;
+}
+.pk_effects::-webkit-scrollbar-thumb{
+	background: #284552;
+	border-radius: 999px;
 }
 
 .pk_tb .pk_btn{
@@ -419,8 +436,22 @@ a{cursor:pointer;color:#99c2c6;-webkit-tap-highlight-color:rgba(0,0,0,0)}
     color: #99FF00;
     outline: 0;
 	padding:0;
-    cursor: pointer;
-    transition: all 0.2s;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+.pk_tb .pk_fxbtn{
+	font-family: inherit;
+}
+.pk_tb .pk_fxbtn .pk_fxicon{
+	width: 18px;
+	height: 18px;
+	display: block;
+	margin: 9px auto 0 auto;
+	fill: currentColor;
+	stroke: none;
+}
+.pk_tb .pk_fxbtn.pk_inact .pk_fxicon{
+	opacity: 0.45;
 }
 .pk_tb .pk_btn:hover{
 	box-shadow:0 0 8px #99FF00;
@@ -1528,7 +1559,8 @@ input.pk_horiz.pk_w180{
 
 @media only screen and (max-width: 1250px) {
 	.pk_ctns,
-	.pk_transport{
+	.pk_transport,
+	.pk_effects{
 		float: none;
 		display: block;
 		border: 0;
@@ -1537,12 +1569,15 @@ input.pk_horiz.pk_w180{
 		margin-top: 0;
 		height: 28px;
 	}
-	.pk_selection{
-		min-width:auto;
-	}
-	.pk_tb .pk_btn {
-		font-size: 12px;
-		width: 24px;
+		.pk_selection{
+			min-width:auto;
+		}
+		.pk_effects{
+			min-width:280px;
+		}
+		.pk_tb .pk_btn {
+			font-size: 12px;
+			width: 24px;
 		height: 23px;
 		margin: 0px 3px;
 		line-height: 24px;
@@ -1554,22 +1589,27 @@ input.pk_horiz.pk_w180{
 		width: 296px;
 	}
 	
-	.pk_tb .pk_selection .pk_btn{
-		width: 60px;
-		line-height: 10px;
-		font-size: 11px;
-		height: 32px;
+		.pk_tb .pk_selection .pk_btn{
+			width: 60px;
+			line-height: 10px;
+			font-size: 11px;
+			height: 32px;
 		margin-top: 3px;
 		margin-left: 10px;
 	}
 
-	.pk_mark1{
-		width:5.554%;
+		.pk_mark1{
+			width:5.554%;
+		}
+		.pk_mark1.pk_odd{
+			display:none;
+		}
+		.pk_tb .pk_fxbtn .pk_fxicon{
+			width: 13px;
+			height: 13px;
+			margin-top: 5px;
+		}
 	}
-	.pk_mark1.pk_odd{
-		display:none;
-	}
-}
 
 @media only screen and (max-width: 864px) {
 	.pk_selection .pk_sellist div{
@@ -1634,10 +1674,14 @@ input.pk_horiz.pk_w180{
 		white-space:nowrap;
 		border-bottom:none;
 	}
-	.pk_mob .pk_ctns, .pk_mob .pk_transport {
-	    height:36px;
-	}
-	.pk_mark1{font-size:8px}
+		.pk_mob .pk_ctns, .pk_mob .pk_transport, .pk_mob .pk_effects {
+		    height:36px;
+		}
+		.pk_mob .pk_effects{
+		    height:36px;
+		    min-width:300px;
+		}
+		.pk_mark1{font-size:8px}
 
 	.pk_tmpMsg{
 		font-size:14px;
@@ -1672,13 +1716,18 @@ input.pk_horiz.pk_w180{
 	.pk_mob .pk_btngroup{
 		padding-top:8px;
 	}
-	.pk_mob .pk_tb .pk_btn {
-	    font-size: 16px;
-	    width: 32px;
-	    height: 32px;
-	    margin: 0px 4px;
-	    line-height: 24px;
-	}
+		.pk_mob .pk_tb .pk_btn {
+		    font-size: 16px;
+		    width: 32px;
+		    height: 32px;
+		    margin: 0px 4px;
+		    line-height: 24px;
+		}
+		.pk_mob .pk_tb .pk_fxbtn .pk_fxicon{
+			width: 16px;
+			height: 16px;
+			margin-top: 7px;
+		}
 
 	.pk_h200 .pk_col {
 	    width: 20%;

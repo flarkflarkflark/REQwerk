@@ -1,6 +1,6 @@
 {
   "name": "recwerk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "RECwerk - Native Desktop Audio & Waveform Editor",
   "homepage": "https://flarkflarkflark.github.io/RECwerk/",
   "main": "index.js",
